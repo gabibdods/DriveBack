@@ -40,7 +40,7 @@ For example:
 * Before: `C:\Users\<username>\OneDrive\Documents`
 * After: `C:\Users\<username>\Documents`
 
-6️⃣ Click **OK** to save each change.
+6️ Click **OK** to save each change.
 
 ---
 
@@ -84,5 +84,5 @@ If you want to completely remove OneDrive:
 
 ## Conclusion
 
-You’ve successfully unlinked your default folders from OneDrive and (optionally) uninstalled OneDrive itself.
+You have successfully unlinked your default folders from OneDrive and (optionally) uninstalled OneDrive itself.
 If you have questions or need help restoring your files, feel free to ask!
