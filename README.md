@@ -1,88 +1,151 @@
 # Uninstall OneDrive & Restore Personal Folders on Windows
 
-If you no longer use OneDrive and want to uninstall it and revert your default folders (like Desktop, Documents, Pictures) back to personal locations, follow this simple guide.
+### Description
 
-> **Important:**  
-> - Modifying the Windows Registry can have unintended consequences if done incorrectly.  
-> - Always back up your registry or create a system restore point first.
+- This guide explains how to safely uninstall Microsoft OneDrive and restore personal folder locations (e.g., Desktop, Documents, Pictures) to their original local paths on Windows systems.
+- It includes registry edits and optional removal steps for users who no longer use OneDrive and want to cleanly revert to personal storage locations.
 
 ---
 
-## Step 1: Change Default Folder Paths
+## Problem Statement
 
-By default, some user folders might be pointed to OneDrive. Let’s update them to point to local folders:
+- OneDrive can alter default user folder paths to cloud-based directories, even after it’s no longer used.
+- This can lead to misfiled documents, broken shortcuts, and undesired cloud syncing behavior.
+- Manual correction is necessary to restore the original local folder structure.
 
-1 Press `Win + R` to open the **Run** dialog.  
-2 Type:
+---
 
-```bash
+## Project Goals
+
+### Restore Default Folder Mappings
+
+- Reconfigure key user folders (Documents, Desktop, Pictures) to point to local directories under the user's profile, eliminating OneDrive redirection.
+
+### Remove OneDrive Application
+
+- Provide a clean and optional method for uninstalling OneDrive from the system using native Windows tools.
+
+---
+
+## Tools, Materials & Resources
+
+### Registry Editor
+
+- Access the `HKEY_CURRENT_USER` hive to change `User Shell Folders` mappings and eliminate OneDrive folder dependencies.
+
+### Windows Explorer / Task Manager
+
+- Restart necessary services to apply changes immediately without rebooting.
+
+### Command Prompt (Admin)
+
+- Used to execute the uninstall command for OneDrive via its system-level setup binary.
+
+---
+
+## Design Decision
+
+### Manual Registry Modification
+
+- Changing folder mappings through the registry ensures persistent and precise control without relying on GUI or third-party software.
+
+### Safe Process Sequencing
+
+- Changes are applied incrementally, with restarts in between, to avoid system instability or data loss.
+
+### Optional Uninstallation
+
+- Uninstalling OneDrive is made optional to support users who may want to maintain OneDrive functionality but correct folder mappings.
+
+---
+
+## Features
+
+### Targeted Folder Restoration
+
+- Focused editing of `User Shell Folders` keys in the registry to point folders like Documents and Pictures back to local directories.
+
+### Immediate Effect via Restart
+
+- Restarting `Windows Explorer` ensures real-time application of the updated folder paths without a full reboot.
+
+### One-Line OneDrive Removal
+
+- Provides a single-line uninstall command that removes OneDrive with minimal user input.
+
+---
+
+## Procedure
+
+### Steps to Remove GRUB
+
+1. Press `Win + R` to open the Run dialog.
+
+2. Type:
+```plaintext
 regedit
-````
-
-and press **Enter** to open the Registry Editor.
-
-3 Navigate to:
-
 ```
+and press Enter to open the Registry Editor.
+
+3. Navigate to:
+```plaintext
 HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
 ```
 
-4️ In the **User Shell Folders** key, look for entries with paths that end in:
-
-```
+4. In the User Shell Folders key, look for entries with paths that end in:
+```plaintext
 \OneDrive
 ```
-
-5️ For each entry that includes `\OneDrive`, double-click it to edit the value, and **remove** `\OneDrive` from the path.
-
 For example:
+```plaintext
+C:\Users\<username>\OneDrive\Documents -> C:\Users\<username>\Documents
+```
 
-* Before: `C:\Users\<username>\OneDrive\Documents`
-* After: `C:\Users\<username>\Documents`
+5. Click OK to save each change.
 
-6️ Click **OK** to save each change.
+6. Open Task Manager (`Ctrl + Shift + Esc`). Find and select Windows Explorer. Click Restart.
 
----
-
-## Step 2: Restart Windows Explorer
-
-For the changes to take effect immediately:
-
-1️ Open **Task Manager** (`Ctrl + Shift + Esc`).
-2️ Find and select **Windows Explorer**.
-3️ Click **Restart**.
-
----
-
-## Step 3: Uninstall OneDrive (Optional)
-
-If you want to completely remove OneDrive:
-
-1️ Open **Command Prompt** as an administrator.
-2️ Run the following command to uninstall OneDrive:
-
-```bash
+7. Open Command Prompt as an administrator. 2️ Run the following command to uninstall OneDrive:
+```plaintext
 %SystemRoot%\System32\OneDriveSetup.exe /uninstall
 ```
 
 ---
 
-## Additional Tips
+## Functional Overview
 
-- **Backup Your Data:** Before uninstalling or changing folder paths, back up any important files stored in OneDrive.
-
-- **Reverting Changes:** If needed, you can re-add OneDrive by downloading it from [OneDrive’s official site](https://onedrive.live.com/about/en-us/download/).
-
----
-
-## Resources
-
-* Microsoft Docs: [OneDrive Setup Commands](https://learn.microsoft.com/en-us/onedrive/deploy-and-configure-onedrive)
-* How to Backup & Restore Registry: [Windows Registry Backup](https://support.microsoft.com/en-us/windows/how-to-back-up-and-restore-the-registry-in-windows-3e5a35f7-5f3f-1f89-e1c5-cd1e81f1f8e5)
+- Modify registry entries to decouple default user folders from OneDrive.
+- Restart Windows Explorer to apply changes.
+- Optionally uninstall OneDrive using its built-in removal command.
 
 ---
 
-## Conclusion
+## Challenges & Solutions
 
-You have successfully unlinked your default folders from OneDrive and (optionally) uninstalled OneDrive itself.
-If you have questions or need help restoring your files, feel free to ask!
+### Registry Editing Risks
+
+- Solved by clearly instructing users to back up the registry and change only specific paths under `User Shell Folders`.
+
+### OneDrive Persistence
+
+- Addressed by providing a full uninstall method that does not require third-party tools or OS reinstall.
+
+---
+
+## Lessons Learned
+
+### Manual Overrides Improve Control
+
+- Windows defaults can be modified safely when following structured procedures.
+
+### Cloud Redirection Isn’t Always Ideal
+
+- For local-first users, removing OneDrive improves performance and reduces confusion over file locations.
+
+---
+
+## Future Enhancements
+
+- Add a PowerShell script to automate folder restoration and OneDrive removal.
+- Include pre-checks for OneDrive paths before offering modifications.
+- Add recovery instructions for mistakenly deleted or altered registry keys.
